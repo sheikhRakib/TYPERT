@@ -1,6 +1,16 @@
-class Main
-{
+import java.awt.EventQueue;
+
+import game.GUI;
+
+class Main {
     public static void main(String[] args) {
-        System.out.println("Hello Java");       
+		EventQueue.invokeLater(() -> {
+            try {
+                GUI gui = new GUI();
+                gui.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
