@@ -34,7 +34,7 @@ public class MenuPanel extends JLabel implements MouseListener {
         newGameLabel.setSize(newGameLabel.getPreferredSize());
         newGameLabel.addMouseListener(this);
         
-        highScoreLabel = new JLabel("Hi-Score");
+        highScoreLabel = new JLabel("Score");
         highScoreLabel.setFont(labelFont);
         highScoreLabel.setSize(highScoreLabel.getPreferredSize());
         highScoreLabel.addMouseListener(this);
@@ -54,9 +54,11 @@ public class MenuPanel extends JLabel implements MouseListener {
         highScoreLabel.setLocation(gui.getWidth()/2 - (highScoreLabel.getWidth()/2), newGameLabel.getY() + newGameLabel.getHeight() + 10);
         exitLabel.setLocation(gui.getWidth()/2 - (exitLabel.getWidth()/2), highScoreLabel.getY() + highScoreLabel.getHeight() + 10);
 
-        if(gui.state == GameState.MENU) {
-            resumeLabel.setVisible(false);
+        resumeLabel.setVisible(false);
+        if(gui.state != GameState.MENU) {
+            resumeLabel.setVisible(true);
         }
+        
     }
 
     @Override
@@ -69,9 +71,11 @@ public class MenuPanel extends JLabel implements MouseListener {
     public void mouseClicked(MouseEvent e) { // mouse clicked
         Object source = e.getSource();
         if (source == resumeLabel) {
-            System.out.println("Resume Game");
+            gui.state = GameState.PLAYING;
+            gui.showGamePanel();
         } else if (source == newGameLabel) {
-            System.out.println("New Game");
+            gui.state = GameState.MENU;
+            gui.showGamePanel();
         } else if (source == highScoreLabel) {
             System.out.println("High Score");
         } else if (source == exitLabel) {
