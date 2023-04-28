@@ -1,13 +1,15 @@
 package game;
 
-import javax.swing.*;
-
 import game.listener.GameKeyListener;
 import game.screen.GameScreenPanel;
 import game.screen.MenuScreenPanel;
 import game.util.GameState;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+
+import javax.swing.JFrame;
 
 public class GUI extends JFrame {
 	public GameState state;

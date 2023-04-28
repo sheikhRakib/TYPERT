@@ -18,7 +18,7 @@ import game.util.GameState;
 public class ScoreSubPanel extends JPanel implements ActionListener {
     private GUI gui;
 
-    public JButton pauseButton;
+    private JButton pauseButton;
     private JLabel timeLabel;
     private JLabel scoreLabel;
     private JLabel accuracyLabel;
@@ -73,7 +73,7 @@ public class ScoreSubPanel extends JPanel implements ActionListener {
         wordPanel.add(lblWord);
 
         iWordLabel = new JLabel();
-        iWordLabel.setFont(new Font(Font.SERIF, Font.BOLD, 25));
+        iWordLabel.setFont(new Font(Font.SERIF, Font.BOLD, fontSize));
         wordPanel.add(iWordLabel);
 
         add(wordPanel);
@@ -100,12 +100,20 @@ public class ScoreSubPanel extends JPanel implements ActionListener {
             updateTime();
         }
     }
-
+    public void submitInputText() {
+        if (gui.state == GameState.PLAYING && !iWordLabel.getText().isEmpty()) {
+            System.out.println(iWordLabel.getText());
+            iWordLabel.setText("");
+            // frame.gamePanel.matchWord();
+            // inputWord = null;
+            iWordLabel.repaint();
+        }
+    }
     public void updateInputText(KeyEvent event) {
-        char source = event.getKeyChar();
+        char key = event.getKeyChar();
+        key = Character.toLowerCase(key);
 
-        String inputWord = iWordLabel.getText() + source;
-        iWordLabel.setText(inputWord.toLowerCase());
+        iWordLabel.setText(iWordLabel.getText() + key);
         iWordLabel.repaint();
     }
 }

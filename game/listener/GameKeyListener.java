@@ -23,7 +23,11 @@ public class GameKeyListener implements KeyListener {
                 } else if (gui.state == GameState.PAUSED) {
                     gui.state = GameState.PLAYING;
                 }
-                break;        
+                break;
+            case KeyEvent.VK_SPACE:
+            case KeyEvent.VK_ENTER:
+                gui.gameScreenPanel.scoreSubPanel.submitInputText();
+                break;
             default:
                 gui.gameScreenPanel.scoreSubPanel.updateInputText(e);
                 break;
