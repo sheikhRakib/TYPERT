@@ -1,14 +1,12 @@
-package game;
+package game.subscreen;
 
 import javax.swing.*;
 
+import game.GUI;
+
 public class GameSubPanel extends JPanel {
 
-    private GUI gui;
-
     public GameSubPanel(GUI gui) {
-        this.gui = gui;
         setBorder(BorderFactory.createLoweredBevelBorder());
-
     }
 }

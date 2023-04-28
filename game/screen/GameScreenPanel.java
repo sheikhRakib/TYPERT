@@ -1,18 +1,22 @@
-package game;
+package game.screen;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JPanel;
 
+import game.GUI;
+import game.subscreen.GameSubPanel;
+import game.subscreen.ScoreSubPanel;
+
 public class GameScreenPanel extends JPanel {
     private GUI gui;
-    private GameSubPanel gameSubPanel;
-    private ScoreSubPanel scoreSubPanel;
+    
+    public GameSubPanel gameSubPanel;
+    public ScoreSubPanel scoreSubPanel;
 
 
     public GameScreenPanel(GUI gui) {
         this.gui = gui;
-        this.gui.state = GameState.PLAYING;
         setBackground(Color.LIGHT_GRAY);
         setLayout(new BorderLayout());
 
@@ -24,8 +28,6 @@ public class GameScreenPanel extends JPanel {
         // Add the ScorePanel as a subpanel
         scoreSubPanel = new ScoreSubPanel(gui);
         add(scoreSubPanel, BorderLayout.SOUTH);
-
-        // Add your game components and logic here
     }
 
 }

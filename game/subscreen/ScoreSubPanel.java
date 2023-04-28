@@ -1,10 +1,10 @@
-package game;
+package game.subscreen;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -12,8 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import game.GUI;
+import game.util.GameState;
+
 public class ScoreSubPanel extends JPanel implements ActionListener {
     private GUI gui;
+
     public JButton pauseButton;
     private JLabel timeLabel;
     private JLabel scoreLabel;
@@ -95,5 +99,13 @@ public class ScoreSubPanel extends JPanel implements ActionListener {
         if (e.getSource() == updateTimer) {
             updateTime();
         }
+    }
+
+    public void updateInputText(KeyEvent event) {
+        char source = event.getKeyChar();
+
+        String inputWord = iWordLabel.getText() + source;
+        iWordLabel.setText(inputWord.toLowerCase());
+        iWordLabel.repaint();
     }
 }
