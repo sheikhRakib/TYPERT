@@ -8,11 +8,13 @@ import game.util.GameState;
 import java.awt.BorderLayout;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 
 import javax.swing.JFrame;
 
 public class GUI extends JFrame {
 	public GameState state;
+	public Point gameRange;
 	
 	public MenuScreenPanel menuScreenPanel;
 	public GameScreenPanel gameScreenPanel;
@@ -29,11 +31,11 @@ public class GUI extends JFrame {
 		
 		this.addKeyListener(new GameKeyListener(this));
 		
-		// this.setSize(700, 500);
-		makeFullScreen();
+		this.setSize(700, 500);
+		// makeFullScreen();
 		
+		gameRange = new Point(getWidth(), (int)(getHeight()*.8));
 		menuScreenPanel = new MenuScreenPanel(this);
-		gameScreenPanel = new GameScreenPanel(this);
 		updateScreen();
 	}
 
