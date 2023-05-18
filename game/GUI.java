@@ -31,8 +31,8 @@ public class GUI extends JFrame {
 		
 		this.addKeyListener(new GameKeyListener(this));
 		
-		this.setSize(700, 500);
-		// makeFullScreen();
+		// this.setSize(700, 500);
+		makeFullScreen();
 		
 		gameRange = new Point(getWidth(), (int)(getHeight()*.8));
 		menuScreenPanel = new MenuScreenPanel(this);

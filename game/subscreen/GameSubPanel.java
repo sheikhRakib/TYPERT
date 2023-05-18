@@ -14,6 +14,5 @@ public class GameSubPanel extends JPanel {
 
         word = new Word("sample", gui);
         add(word);
-
     }
 }

@@ -7,7 +7,7 @@ import game.GUI;
 public class BackgroundImage extends ImageIcon {
 
     public BackgroundImage(GUI gui) {
-        super(new ImageIcon(BackgroundImage.class.getResource("/img/GameBackground.png")).getImage()
+        super(new ImageIcon(BackgroundImage.class.getResource("/props/GameBackground.png")).getImage()
                 .getScaledInstance(gui.getWidth(), gui.getHeight(), Image.SCALE_SMOOTH));
     }
 }
