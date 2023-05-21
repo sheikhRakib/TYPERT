@@ -1,51 +1,44 @@
 package game.object;
 
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 import javax.swing.Timer;
-
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import game.GUI;
+import game.util.GameState;
+import game.util.WordSpeed;
 
 public class Word extends JLabel implements ActionListener {
-    private String name;
-    private Point point;
-    private Random random;
+    private WordSpeed speed;
+    public Timer wordSpeedTimer;
+    private GUI gui;
 
-    private Dimension oDimension;
-
-    public Timer objectMoveTimer; // object moving time
-
-    // Constructor of Game Object
     public Word(String name, GUI gui) {
         super(name);
+        this.gui = gui;
+
         int fontSize = (int) (gui.getWidth() * 0.020);
+
         setFont(new Font("", Font.PLAIN, fontSize));
+        setSize(getPreferredSize());
+        setLocation((int) -getWidth(), new Random().nextInt(gui.gameRange.y));
 
-        random = new Random();
-
-        this.name = name;
-        oDimension = getPreferredSize();
-
-        point = new Point((int) -this.oDimension.getWidth(), random.nextInt(gui.gameRange.y));
-        setLocation(point);
-        setSize(oDimension);
-
-        objectMoveTimer = new Timer(30, this);
-        objectMoveTimer.start();
+        speed = getRandomSpeed();
+        wordSpeedTimer = new Timer(speed.getValue(), this);
+        wordSpeedTimer.start();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if(gui.state != GameState.PLAYING) return;
+
         int newX = getX();
-        if (newX + this.getWidth() < getParent().getWidth()) {
+        if (newX + getWidth() < getParent().getWidth()) {
             newX = getX() + 1;
             setLocation(newX, getY());
         } else {
@@ -54,7 +47,7 @@ public class Word extends JLabel implements ActionListener {
     }
 
     public void removeWordFromScreen() {
-        objectMoveTimer.stop();
+        wordSpeedTimer.stop();
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -68,4 +61,9 @@ public class Word extends JLabel implements ActionListener {
         });
     }
 
+    private WordSpeed getRandomSpeed() {
+        WordSpeed[] speeds = WordSpeed.values();
+        int index = new Random().nextInt(speeds.length);
+        return speeds[index];
+    }
 }

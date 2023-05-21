@@ -33,8 +33,6 @@ public class GUI extends JFrame {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		
-		// Change the layout from GridLayout to BorderLayout
 		this.getContentPane().setLayout(new BorderLayout());
 		
 		this.addKeyListener(new GameKeyListener(this));
@@ -82,7 +80,7 @@ public class GUI extends JFrame {
 		try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
 			String line;
 			while ((line = br.readLine()) != null) {
-				words.add(line);
+				words.add(line.toLowerCase());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
