@@ -6,22 +6,22 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 
 import game.GUI;
-import game.listener.GameMouseListener;
+import game.controller.ActionController;
 import game.util.BackgroundImage;
 import game.util.GameState;
 
-public class MenuScreenPanel extends JLabel {
+public class MenuScreen extends JLabel {
     private GUI gui;
     private JLabel resumeLabel;
     private JLabel newGameLabel;
     private JLabel highScoreLabel;
     private JLabel exitLabel;
 
-    private GameMouseListener gameMouseListener;
+    private ActionController actionController;
 
-    public MenuScreenPanel(GUI gui) {
+    public MenuScreen(GUI gui) {
         this.gui = gui;
-        this.gameMouseListener = new GameMouseListener(gui);
+        this.actionController = new ActionController(gui);
 
         this.setLayout(null);
         int fontSize = (int) (gui.getWidth() * 0.04); // Adjust the 0.03 value to change the proportion
@@ -32,22 +32,22 @@ public class MenuScreenPanel extends JLabel {
         resumeLabel = new JLabel("Resume");
         resumeLabel.setFont(labelFont);
         resumeLabel.setSize(resumeLabel.getPreferredSize());
-        resumeLabel.addMouseListener(gameMouseListener);
+        resumeLabel.addMouseListener(actionController);
         
         newGameLabel = new JLabel("New Game");
         newGameLabel.setFont(labelFont);
         newGameLabel.setSize(newGameLabel.getPreferredSize());
-        newGameLabel.addMouseListener(gameMouseListener);
+        newGameLabel.addMouseListener(actionController);
         
         highScoreLabel = new JLabel("Score");
         highScoreLabel.setFont(labelFont);
         highScoreLabel.setSize(highScoreLabel.getPreferredSize());
-        highScoreLabel.addMouseListener(gameMouseListener);
+        highScoreLabel.addMouseListener(actionController);
         
         exitLabel = new JLabel("Exit");
         exitLabel.setFont(labelFont);
         exitLabel.setSize(exitLabel.getPreferredSize());
-        exitLabel.addMouseListener(gameMouseListener);
+        exitLabel.addMouseListener(actionController);
         
         this.add(resumeLabel);
         this.add(newGameLabel);
@@ -74,7 +74,7 @@ public class MenuScreenPanel extends JLabel {
             gui.state = GameState.PLAYING;
         } else if (source == newGameLabel) {
             gui.state = GameState.PLAYING;
-            gui.gameScreenPanel = new GameScreenPanel(gui);
+            gui.gameScreen = new GameScreen(gui);
         } else if (source == highScoreLabel) {
             gui.state = GameState.PAUSED;
             System.out.println("High Score");

@@ -8,12 +8,12 @@ import game.GUI;
 import game.subscreen.GameSubPanel;
 import game.subscreen.ScoreSubPanel;
 
-public class GameScreenPanel extends JPanel {
+public class GameScreen extends JPanel {
     public GameSubPanel gameSubPanel;
     public ScoreSubPanel scoreSubPanel;
 
 
-    public GameScreenPanel(GUI gui) {
+    public GameScreen(GUI gui) {
         setBackground(Color.LIGHT_GRAY);
         setLayout(new BorderLayout());
 

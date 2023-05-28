@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import game.GUI;
+import game.screen.GameOverScreen;
 import game.util.GameState;
 import game.util.WordSpeed;
 
@@ -43,9 +44,8 @@ public class Word extends JLabel implements ActionListener {
             setLocation(newX, getY());
         } else {
             gui.state = GameState.GAME_OVER;
-            getParent().revalidate();
-            getParent().repaint();
-            // removeWordFromScreen();
+            gui.gameOverScreen = new GameOverScreen(6);
+            gui.updateScreen();
         }
     }
 

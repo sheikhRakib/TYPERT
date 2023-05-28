@@ -1,8 +1,9 @@
 package game;
 
-import game.listener.GameKeyListener;
-import game.screen.GameScreenPanel;
-import game.screen.MenuScreenPanel;
+import game.controller.ActionController;
+import game.screen.GameOverScreen;
+import game.screen.GameScreen;
+import game.screen.MenuScreen;
 import game.util.Dictionary;
 import game.util.GameState;
 
@@ -18,29 +19,29 @@ public class GUI extends JFrame {
 	public GameState state;
 	public Point gameRange;
 	
-	public MenuScreenPanel menuScreenPanel;
-	public GameScreenPanel gameScreenPanel;
-
 	public List<String> dictionary;
 
+	public MenuScreen menuScreen;
+	public GameScreen gameScreen;
+	public GameOverScreen gameOverScreen;
+	
+	
 	public GUI() {
+		dictionary = Dictionary.readTextFile();
+
 		this.setTitle("typert");
 		this.state = GameState.MENU;
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 		this.getContentPane().setLayout(new BorderLayout());
-		
-		this.addKeyListener(new GameKeyListener(this));
+		this.addKeyListener(new ActionController(this));
 		
 		this.setSize(700, 500);
 		// makeFullScreen();
 		
 		gameRange = new Point(getWidth(), (int)(getHeight()*.8));
-		menuScreenPanel = new MenuScreenPanel(this);
+		menuScreen = new MenuScreen(this);
 		updateScreen();
-
-		dictionary = Dictionary.readTextFile();
 	}
 
 	private void makeFullScreen() {
@@ -58,16 +59,16 @@ public class GUI extends JFrame {
 			case MENU:
 			case PAUSED:
 				System.out.println("S: Menu/Paused");
-				this.menuScreenPanel.checkResumeButton();
-				this.getContentPane().add(menuScreenPanel, BorderLayout.CENTER);
+				this.menuScreen.checkResumeButton();
+				this.getContentPane().add(menuScreen, BorderLayout.CENTER);
 				break;
 			case GAME_OVER:
 				System.out.println("S: GameOver");
-				this.getContentPane().add(gameScreenPanel, BorderLayout.CENTER);
+				this.getContentPane().add(gameOverScreen, BorderLayout.CENTER);
 				break;
 			case PLAYING:
 				System.out.println("S: Playing");
-				this.getContentPane().add(gameScreenPanel, BorderLayout.CENTER);
+				this.getContentPane().add(gameScreen, BorderLayout.CENTER);
 				break;
 			default:
 				break;
