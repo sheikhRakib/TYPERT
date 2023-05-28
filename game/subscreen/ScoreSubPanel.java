@@ -3,7 +3,6 @@ package game.subscreen;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -106,14 +105,13 @@ public class ScoreSubPanel extends JPanel implements ActionListener {
             iWordLabel.setText("");
             // frame.gamePanel.matchWord();
             // inputWord = null;
-            iWordLabel.repaint();
         }
+        iWordLabel.repaint();
     }
-    public void updateInputText(KeyEvent event) {
-        char key = event.getKeyChar();
-        key = Character.toLowerCase(key);
+    public void updateInputText(char letter) {
+        if(gui.state != GameState.PLAYING) return;
 
-        iWordLabel.setText(iWordLabel.getText() + key);
+        iWordLabel.setText(iWordLabel.getText() + letter);
         iWordLabel.repaint();
     }
 }

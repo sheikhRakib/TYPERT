@@ -1,10 +1,10 @@
 package game.util;
 
 public enum WordSpeed {
-	SLOW(880),
-	NORMAL(40),
-	MEDIUM(20),
-	FAST(10);
+	SLOW(100),
+	NORMAL(80),
+	MEDIUM(40),
+	FAST(20);
 
     private int value;
 

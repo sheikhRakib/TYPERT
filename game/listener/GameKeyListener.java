@@ -12,9 +12,10 @@ public class GameKeyListener implements KeyListener {
     public GameKeyListener(GUI gui) {
         this.gui = gui;
     }
+
     @Override
     public void keyTyped(KeyEvent e) {
-        char key = e.getKeyChar();
+        char key = Character.toLowerCase(e.getKeyChar());
         
         switch (key) {
             case KeyEvent.VK_ESCAPE:
@@ -29,7 +30,7 @@ public class GameKeyListener implements KeyListener {
                 gui.gameScreenPanel.scoreSubPanel.submitInputText();
                 break;
             default:
-                gui.gameScreenPanel.scoreSubPanel.updateInputText(e);
+                gui.gameScreenPanel.scoreSubPanel.updateInputText(key);
                 break;
         }
         gui.updateScreen();

@@ -42,7 +42,10 @@ public class Word extends JLabel implements ActionListener {
             newX = getX() + 1;
             setLocation(newX, getY());
         } else {
-            removeWordFromScreen();
+            gui.state = GameState.GAME_OVER;
+            getParent().revalidate();
+            getParent().repaint();
+            // removeWordFromScreen();
         }
     }
 
