@@ -15,7 +15,7 @@ import game.util.GameState;
 import game.util.WordSpeed;
 
 public class Word extends JLabel implements ActionListener {
-    private WordSpeed speed;
+    private WordSpeed delay;
     public Timer wordSpeedTimer;
     private GUI gui;
 
@@ -24,13 +24,12 @@ public class Word extends JLabel implements ActionListener {
         this.gui = gui;
 
         int fontSize = (int) (gui.getWidth() * 0.020);
-
         setFont(new Font("", Font.PLAIN, fontSize));
         setSize(getPreferredSize());
         setLocation((int) -getWidth(), new Random().nextInt(gui.gameRange.y));
 
-        speed = getRandomSpeed();
-        wordSpeedTimer = new Timer(speed.getValue(), this);
+        delay = getRandomSpeed();
+        wordSpeedTimer = new Timer(delay.getValue(), this);
         wordSpeedTimer.start();
     }
 
@@ -65,8 +64,8 @@ public class Word extends JLabel implements ActionListener {
     }
 
     private WordSpeed getRandomSpeed() {
-        WordSpeed[] speeds = WordSpeed.values();
-        int index = new Random().nextInt(speeds.length);
-        return speeds[index];
+        WordSpeed[] delays = WordSpeed.values();
+        int index = new Random().nextInt(delays.length);
+        return delays[index];
     }
 }

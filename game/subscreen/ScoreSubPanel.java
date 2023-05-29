@@ -14,7 +14,7 @@ import javax.swing.Timer;
 import game.GUI;
 import game.util.GameState;
 
-public class ScoreSubPanel extends JPanel implements ActionListener {
+public class ScoreSubPanel extends JPanel {
     private GUI gui;
 
     private JButton pauseButton;
@@ -38,11 +38,19 @@ public class ScoreSubPanel extends JPanel implements ActionListener {
         int fontSize = (int) (gui.getWidth() * 0.025); // Adjust the 0.025 value to change the proportion
         Font scoreObjectFont = new Font("Times New Roman", Font.ITALIC, fontSize);
 
-        // Set BoxLayout with LINE_AXIS
         setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 
         pauseButton = new JButton("Pause");
         pauseButton.setFont(scoreObjectFont);
+        pauseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (gui.state == GameState.PLAYING) {
+                    gui.state = GameState.PAUSED;
+                    gui.updateScreen();
+                }
+            }
+        });
         add(pauseButton);
 
         add(Box.createHorizontalStrut(15)); // Add space between components
@@ -51,13 +59,13 @@ public class ScoreSubPanel extends JPanel implements ActionListener {
         timeLabel.setFont(scoreObjectFont);
         add(timeLabel);
 
-        add(Box.createHorizontalStrut(15));
+        add(Box.createHorizontalStrut(15)); // Add space between components
 
         scoreLabel = new JLabel("Score: " + score);
         scoreLabel.setFont(scoreObjectFont);
         add(scoreLabel);
 
-        add(Box.createHorizontalStrut(10));
+        add(Box.createHorizontalStrut(10)); // Add space between components
 
         accuracyLabel = new JLabel("Accuracy: " + accuracy + "%");
         accuracyLabel.setFont(scoreObjectFont);
@@ -78,7 +86,12 @@ public class ScoreSubPanel extends JPanel implements ActionListener {
         add(wordPanel);
 
         // Create and start the timer
-        updateTimer = new Timer(1000, this); // Update every 1000 ms or 1 second
+        updateTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateTime();
+            }
+        }); // Update every 1000 ms or 1 second
         updateTimer.start();
     }
 
@@ -93,12 +106,6 @@ public class ScoreSubPanel extends JPanel implements ActionListener {
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == updateTimer) {
-            updateTime();
-        }
-    }
     public void submitInputText() {
         if (gui.state == GameState.PLAYING && !iWordLabel.getText().isEmpty()) {
             System.out.println(iWordLabel.getText());
@@ -111,7 +118,9 @@ public class ScoreSubPanel extends JPanel implements ActionListener {
     public void updateInputText(char letter) {
         if(gui.state != GameState.PLAYING) return;
 
-        iWordLabel.setText(iWordLabel.getText() + letter);
-        iWordLabel.repaint();
+        if(letter >= 'a' && letter <='z') {
+            iWordLabel.setText(iWordLabel.getText() + letter);
+            iWordLabel.repaint();
+        }
     }
 }
