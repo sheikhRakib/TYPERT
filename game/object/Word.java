@@ -48,7 +48,7 @@ public class Word extends JLabel implements ActionListener {
         }
     }
 
-    public void removeWordFromScreen() {
+    public void delete() {
         wordSpeedTimer.stop();
         SwingUtilities.invokeLater(new Runnable() {
             @Override

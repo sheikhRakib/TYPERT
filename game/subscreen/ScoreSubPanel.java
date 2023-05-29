@@ -3,6 +3,7 @@ package game.subscreen;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -17,31 +18,39 @@ import game.util.GameState;
 public class ScoreSubPanel extends JPanel {
     private GUI gui;
 
+    private JLabel textTimeLabel;
+    private JLabel textScoreLabel;
+    private JLabel textAccuracylabel;
+    private JLabel textWordlabel;
+
     private JButton pauseButton;
     private JLabel timeLabel;
     private JLabel scoreLabel;
     private JLabel accuracyLabel;
-    private JLabel iWordLabel;
+    private JLabel wordLabel;
 
     private int score;
+    private int totalSubmit;
     private double accuracy;
-    private int timer;
+    private int time;
 
-    private Timer updateTimer;
+    private Timer clock;
 
     public ScoreSubPanel(GUI gui) {
         this.gui = gui;
-        this.timer = 0;
+
+        this.time = 0;
+        this.totalSubmit = 0;
         this.score = 0;
-        this.accuracy = 1;
+        this.accuracy = 100;
 
         int fontSize = (int) (gui.getWidth() * 0.025); // Adjust the 0.025 value to change the proportion
-        Font scoreObjectFont = new Font("Times New Roman", Font.ITALIC, fontSize);
+        Font font = new Font("Times New Roman", Font.ITALIC, fontSize);
 
         setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 
         pauseButton = new JButton("Pause");
-        pauseButton.setFont(scoreObjectFont);
+        pauseButton.setFont(font);
         pauseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -51,76 +60,88 @@ public class ScoreSubPanel extends JPanel {
                 }
             }
         });
-        add(pauseButton);
 
-        add(Box.createHorizontalStrut(15)); // Add space between components
+        textTimeLabel = new JLabel("Time: ");
+        textTimeLabel.setFont(font);
+        timeLabel = new JLabel("0:00");
+        timeLabel.setFont(font);
 
-        timeLabel = new JLabel("Time: 0:00");
-        timeLabel.setFont(scoreObjectFont);
-        add(timeLabel);
+        textScoreLabel = new JLabel("Score: ");
+        textScoreLabel.setFont(font);
+        scoreLabel = new JLabel(Integer.toString(score));
+        scoreLabel.setFont(font);
 
-        add(Box.createHorizontalStrut(15)); // Add space between components
-
-        scoreLabel = new JLabel("Score: " + score);
-        scoreLabel.setFont(scoreObjectFont);
-        add(scoreLabel);
-
-        add(Box.createHorizontalStrut(10)); // Add space between components
-
-        accuracyLabel = new JLabel("Accuracy: " + accuracy + "%");
-        accuracyLabel.setFont(scoreObjectFont);
-        add(accuracyLabel);
-
-        add(Box.createHorizontalStrut(10));
+        textAccuracylabel = new JLabel("Accuracy: ");
+        textAccuracylabel.setFont(font);
+        accuracyLabel = new JLabel(Double.toString(accuracy) + "%");
+        accuracyLabel.setFont(font);
 
         JPanel wordPanel = new JPanel();
-
-        JLabel lblWord = new JLabel("Word: ");
-        lblWord.setFont(scoreObjectFont);
-        wordPanel.add(lblWord);
-
-        iWordLabel = new JLabel();
-        iWordLabel.setFont(new Font(Font.SERIF, Font.BOLD, fontSize));
-        wordPanel.add(iWordLabel);
-
+        textWordlabel = new JLabel("Word: ");
+        textWordlabel.setFont(font);
+        wordLabel = new JLabel();
+        wordLabel.setFont(new Font(Font.SERIF, Font.BOLD, fontSize));
+        
+        wordPanel.add(textWordlabel);
+        wordPanel.add(wordLabel);
+        
+        add(pauseButton);
+        add(Box.createHorizontalStrut(15)); // Add space between components
+        add(textTimeLabel);
+        add(timeLabel);
+        add(Box.createHorizontalStrut(15)); // Add space between components
+        add(textScoreLabel);
+        add(scoreLabel);
+        add(Box.createHorizontalStrut(15)); // Add space between components
+        add(textAccuracylabel);
+        add(accuracyLabel);
+        add(Box.createHorizontalStrut(15)); // Add space between components
         add(wordPanel);
 
-        // Create and start the timer
-        updateTimer = new Timer(1000, new ActionListener() {
+        clock = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                updateTime();
+                updateClock();
             }
         }); // Update every 1000 ms or 1 second
-        updateTimer.start();
+        clock.start();
     }
 
-    private void updateTime() {
+    private void updateClock() {
         if (gui.state == GameState.PLAYING) {
-            timer++;
-            if (timer % 60 < 10)
-                timeLabel.setText("Time: " + timer / 60 + ":0" + timer % 60);
+            time++;
+            if (time % 60 < 10)
+                timeLabel.setText(time / 60 + ":0" + time % 60);
             else
-                timeLabel.setText("Time: " + timer / 60 + ":" + timer % 60);
+                timeLabel.setText(time / 60 + ":" + time % 60);
             timeLabel.repaint();
         }
     }
 
     public void submitInputText() {
-        if (gui.state == GameState.PLAYING && !iWordLabel.getText().isEmpty()) {
-            System.out.println(iWordLabel.getText());
-            iWordLabel.setText("");
-            // frame.gamePanel.matchWord();
-            // inputWord = null;
-        }
-        iWordLabel.repaint();
+        if(gui.state != GameState.PLAYING || wordLabel.getText().isEmpty()) return;
+
+        totalSubmit++;
+        String inputWord = wordLabel.getText();
+        
+        boolean success = gui.gameScreen.gameSubPanel.matchWord(inputWord);
+        score = success ? score+1 : score;
+        
+        accuracy = ((double) score / (double) totalSubmit) * 100;
+        scoreLabel.setText(Integer.toString(score));
+        accuracyLabel.setText((new DecimalFormat("###.##").format(accuracy)) + "%");
+        wordLabel.setText("");
+
+        scoreLabel.repaint();
+        accuracyLabel.repaint();
+        wordLabel.repaint();
     }
     public void updateInputText(char letter) {
         if(gui.state != GameState.PLAYING) return;
 
         if(letter >= 'a' && letter <='z') {
-            iWordLabel.setText(iWordLabel.getText() + letter);
-            iWordLabel.repaint();
+            wordLabel.setText(wordLabel.getText() + letter);
+            wordLabel.repaint();
         }
     }
 }

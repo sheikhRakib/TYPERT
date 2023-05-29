@@ -34,9 +34,30 @@ public class GameSubPanel extends JPanel {
                 Word word = new Word(randomWord, gui);
                 add(word);
                 words.add(word);
+                
+                // printWords();
+
                 revalidate();
                 repaint();
             }
         }).start();
+    }
+
+
+    private void printWords() {
+        for (Word word : words) {
+            System.out.print(word.getText() + ", ");
+        }
+        System.out.println();
+    }
+
+    public boolean matchWord(String inputWord) {
+        for (Word word : words) {
+            if(inputWord.equals(word.getText())) {
+                word.delete();
+                return true;
+            }
+        }
+        return false;
     }
 }
