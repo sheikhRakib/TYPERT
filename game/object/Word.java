@@ -18,9 +18,11 @@ public class Word extends JLabel implements ActionListener {
     private WordSpeed delay;
     public Timer wordSpeedTimer;
     private GUI gui;
+    private String name;
 
     public Word(String name, GUI gui) {
         super(name);
+        this.name = name;
         this.gui = gui;
 
         int fontSize = (int) (gui.getWidth() * 0.020);
@@ -37,13 +39,14 @@ public class Word extends JLabel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(gui.state != GameState.PLAYING) return;
 
-        int newX = getX();
-        if (newX + getWidth() < getParent().getWidth()) {
-            newX = getX() + 1;
-            setLocation(newX, getY());
+        if (getX() + getWidth() < gui.gameRange.getX()) {
+            setLocation(getX() + 1, getY());
+            setText(name + "("+getX()+","+getY()+")");
+            setSize(getPreferredSize());
         } else {
             gui.state = GameState.GAME_OVER;
-            gui.gameOverScreen = new GameOverScreen(6);
+            System.out.println("** Word: " +getText()+ " | position: " + getX() +"("+getX()+getWidth()+"),"+getY());
+            gui.gameOverScreen = new GameOverScreen(gui, gui.gameScreen.scoreSubPanel.getScore());
             gui.updateScreen();
         }
     }

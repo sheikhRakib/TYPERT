@@ -2,19 +2,22 @@ package game.screen;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import game.GUI;
+import game.util.GameState;
 
 public class GameOverScreen extends JPanel {
     private JLabel gameOverLabel;
     private JLabel scoreLabel;
     private JButton restartButton;
 
-    public GameOverScreen(int score) {
+    public GameOverScreen(GUI gui, int score) {
         setBackground(Color.WHITE);
         setLayout(null);
 
@@ -31,12 +34,29 @@ public class GameOverScreen extends JPanel {
         restartButton = new JButton("Restart");
         restartButton.setFont(new Font("Arial", Font.PLAIN, 16));
         restartButton.setBounds(150, 250, 100, 30);
-        restartButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Handle restart logic here
-            }
-        });
         add(restartButton);
+        restartButton.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if ( gui.state != GameState.GAME_OVER) return;
+
+                gui.gameScreen.gameSubPanel.clearList();
+                gui.state = GameState.PLAYING;
+                gui.gameScreen = new GameScreen(gui);
+                gui.updateScreen();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {}
+
+            @Override
+            public void mouseReleased(MouseEvent e) {}
+            
+            @Override
+            public void mouseEntered(MouseEvent e) {}
+            
+            @Override
+            public void mouseExited(MouseEvent e) {}
+        });
     }
 }

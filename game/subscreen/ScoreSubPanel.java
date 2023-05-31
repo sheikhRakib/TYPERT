@@ -119,13 +119,12 @@ public class ScoreSubPanel extends JPanel {
     }
 
     public void submitInputText() {
-        if(gui.state != GameState.PLAYING || wordLabel.getText().isEmpty()) return;
-
+        if (gui.state != GameState.PLAYING || wordLabel.getText().isEmpty()) return;
+ 
         totalSubmit++;
         String inputWord = wordLabel.getText();
         
-        boolean success = gui.gameScreen.gameSubPanel.matchWord(inputWord);
-        score = success ? score+1 : score;
+        score = gui.gameScreen.gameSubPanel.matchWord(inputWord) ? score+1 : score;
         
         accuracy = ((double) score / (double) totalSubmit) * 100;
         scoreLabel.setText(Integer.toString(score));
@@ -143,5 +142,9 @@ public class ScoreSubPanel extends JPanel {
             wordLabel.setText(wordLabel.getText() + letter);
             wordLabel.repaint();
         }
+    }
+
+    public int getScore() {
+        return score;
     }
 }

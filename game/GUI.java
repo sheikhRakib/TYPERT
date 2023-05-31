@@ -53,6 +53,7 @@ public class GUI extends JFrame {
 		gameRange = new Point(getWidth(), (int)(getHeight()*.8));
 		menuScreen = new MenuScreen(this);
 		updateScreen();
+		System.out.println("Range: ("+gameRange.getX()+", "+gameRange.getY()+")");
 	}
 
 	private void makeFullScreen() {
